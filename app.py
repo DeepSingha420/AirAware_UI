@@ -11,7 +11,7 @@ result = st_javascript(js_code)
 
 if result:
     visitor_ip = result.get("ip")
-    st.write(f"Your Public IP is: **{visitor_ip}**")
+    #st.write(f"Your Public IP is: **{visitor_ip}**")
 else:
     st.write("Detecting IP...")
 
@@ -19,7 +19,6 @@ else:
 
 #st.write(visitor_ip)
 
-'''
 if not visitor_ip: visitor_ip = "8.8.8.8"
 
 st.set_page_config(page_title="AirAware", page_icon="🌍")
@@ -60,7 +59,7 @@ if st.button("Check My Local AQI"):
 
 
 
-'''
+
 
 
 
