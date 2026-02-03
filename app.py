@@ -1,14 +1,15 @@
 import streamlit as st
 import requests
-from streamlit.web.server.websocket_headers import _get_websocket_headers
+from streamlit_javascript import st_javascript
 
-def get_visitor_ip():
-    headers = _get_websocket_headers()
-    if headers:
-        return headers.get("X-Forwarded-For", "").split(",")[0]
-    return None
+js_code = """
+    fetch("https://api.ipify.org?format=json")
+    .then(response => response.json())
+    .then(data => data.ip)
+"""
 
-visitor_ip = get_visitor_ip()
+
+visitor_ip = st_javascript(js_code, key="get_ip")
 
 st.set_page_config(page_title="AirAware", page_icon="🌍")
 
@@ -44,5 +45,6 @@ if st.button("Check My Local AQI"):
         except Exception as e:
             st.error(f"Could not connect to API: {e}")
             st.error(visitor_ip)
+
 
 
