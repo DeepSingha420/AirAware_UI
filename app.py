@@ -1,10 +1,17 @@
 import streamlit as st
 import requests
+from streamlit.web.server.websocket_headers import _get_websocket_headers
 
-# 1. Page Config
+def get_visitor_ip():
+    headers = _get_websocket_headers()
+    if headers:
+        return headers.get("X-Forwarded-For", "").split(",")[0]
+    return None
+
+visitor_ip = get_visitor_ip()
+
 st.set_page_config(page_title="AirAware", page_icon="🌍")
 
-# 2. Your Vercel URL
 API_URL = "https://air-aware-three.vercel.app/aqi"
 
 st.title("🌍 Real-time Air Quality")
@@ -12,8 +19,10 @@ st.title("🌍 Real-time Air Quality")
 if st.button("Check My Local AQI"):
     with st.spinner("Fetching data from Vercel..."):
         try:
-            # We call your Vercel backend
-            response = requests.get(API_URL)
+            if visitor_ip:
+                response = requests.get(f"{API_URL}?ip={visitor_ip}")
+            else:
+                response = requests.get(API_URL)
             data = response.json()
 
             if response.status_code == 200:
@@ -34,3 +43,4 @@ if st.button("Check My Local AQI"):
                 st.error("Backend returned an error.")
         except Exception as e:
             st.error(f"Could not connect to API: {e}")
+
