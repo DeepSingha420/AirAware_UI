@@ -4,6 +4,8 @@ import requests
 
 visitor_ip = st.context.ip_address
 
+if not visitor_ip: visitor_ip = 8.8.8.8
+
 st.set_page_config(page_title="AirAware", page_icon="🌍")
 
 API_URL = "https://air-aware-three.vercel.app/aqi"
@@ -17,7 +19,7 @@ if st.button("Check My Local AQI"):
             if visitor_ip:
                 response = requests.get(f"{API_URL}?ip={visitor_ip}")
             else:
-                response = requests.get(f"{API_URL}?ip={8.8.8.8}")
+                response = requests.get(API_URL)
             data = response.json()
 
             if response.status_code == 200:
@@ -39,6 +41,7 @@ if st.button("Check My Local AQI"):
         except Exception as e:
             st.error(f"Could not connect to API: {e}")
             st.error(visitor_ip)
+
 
 
 
