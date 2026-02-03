@@ -4,7 +4,7 @@ import requests
 
 visitor_ip = st.context.ip_address
 
-if not visitor_ip: visitor_ip = 8.8.8.8
+if not visitor_ip: visitor_ip = "8.8.8.8"
 
 st.set_page_config(page_title="AirAware", page_icon="🌍")
 
@@ -41,6 +41,7 @@ if st.button("Check My Local AQI"):
         except Exception as e:
             st.error(f"Could not connect to API: {e}")
             st.error(visitor_ip)
+
 
 
 
