@@ -13,7 +13,7 @@ if result:
     visitor_ip = result.get("ip")
     st.write(f"Your Public IP is: **{visitor_ip}**")
 else:
-    st.write("Detecting IP..."
+    st.write("Detecting IP...")
 
 #visitor_ip = st.context.ip_address
 
@@ -61,6 +61,7 @@ if st.button("Check My Local AQI"):
 
 
 '''
+
 
 
 
