@@ -18,6 +18,7 @@ API_URL = "https://air-aware-three.vercel.app/aqi"
 st.title("🌍 Real-time Air Quality")
 
 if st.button("Check My Local AQI"):
+    st.warning(visitor_ip)
     with st.spinner("Fetching data from Vercel..."):
         try:
             if visitor_ip:
@@ -45,6 +46,7 @@ if st.button("Check My Local AQI"):
         except Exception as e:
             st.error(f"Could not connect to API: {e}")
             st.error(visitor_ip)
+
 
 
 
