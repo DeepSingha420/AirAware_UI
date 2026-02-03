@@ -1,10 +1,23 @@
 import streamlit as st
 import requests
+from streamlit_javascript import st_javascript
 
+st.title("IP Checker")
 
-visitor_ip = st.context.ip_address
+# This script runs in the user's browser to find their public IP
+# It uses a public API (ipify) to bypass local/proxy issues
+js_code = 'await fetch("https://api.ipify.org?format=json").then(res => res.json())'
+result = st_javascript(js_code)
 
-st.write(visitor_ip)
+if result:
+    visitor_ip = result.get("ip")
+    st.write(f"Your Public IP is: **{visitor_ip}**")
+else:
+    st.write("Detecting IP..."
+
+#visitor_ip = st.context.ip_address
+
+#st.write(visitor_ip)
 
 '''
 if not visitor_ip: visitor_ip = "8.8.8.8"
@@ -48,6 +61,7 @@ if st.button("Check My Local AQI"):
 
 
 '''
+
 
 
 
