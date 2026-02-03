@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 from streamlit_javascript import st_javascript
 
-st.title("IP Checker")
+st.title("AirAware")
 
 # This script runs in the user's browser to find their public IP
 # It uses a public API (ipify) to bypass local/proxy issues
@@ -25,10 +25,10 @@ st.set_page_config(page_title="AirAware", page_icon="🌍")
 
 API_URL = "https://air-aware-three.vercel.app/aqi"
 
-st.title("🌍 Real-time Air Quality")
+st.title("Location-based AQI Service using FastAPI")
 
 if st.button("Check My Local AQI"):
-    st.warning(visitor_ip)
+    st.warning(f"Detected IP: {visitor_ip}")
     with st.spinner("Fetching data from Vercel..."):
         try:
             if visitor_ip:
@@ -36,6 +36,7 @@ if st.button("Check My Local AQI"):
             else:
                 response = requests.get(API_URL)
             data = response.json()
+            json_string = json.dumps(data, indent=4)
 
             if response.status_code == 200:
                 # 3. Display the nested data you built
@@ -45,7 +46,19 @@ if st.button("Check My Local AQI"):
                 st.subheader(f"Location: {loc['city']}, {loc['country']}")
                 
                 # Big metric for AQI
-                st.metric(label="US AQI Value", value=aqi['value'], delta=aqi['category'], delta_color="inverse")
+                st.metric(label="AQI Value", value=aqi['value'], delta=aqi['category'], delta_color="inverse")
+
+                st.success("Check / Download JSON:")
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.link_button("Check", f"{API_URL}?ip={visitor_ip}")
+                with col2:
+                    st.download_button(
+                        label="Download",
+                        data=json_string,
+                        file_name="data.json",
+                        mime="application/json"
+                    )
                 
                 # Show coordinates on a map
                 st.map({"lat": [loc['lat']], "lon": [loc['lon']]})
@@ -56,6 +69,7 @@ if st.button("Check My Local AQI"):
         except Exception as e:
             st.error(f"Could not connect to API: {e}")
             st.error(visitor_ip)
+
 
 
 
