@@ -43,4 +43,6 @@ if st.button("Check My Local AQI"):
                 st.error("Backend returned an error.")
         except Exception as e:
             st.error(f"Could not connect to API: {e}")
+            st.error(visitor_ip)
+
 
