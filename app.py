@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import json
 from streamlit_javascript import st_javascript
 
 st.title("AirAware")
@@ -69,6 +70,7 @@ if st.button("Check My Local AQI"):
         except Exception as e:
             st.error(f"Could not connect to API: {e}")
             st.error(visitor_ip)
+
 
 
 
